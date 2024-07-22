@@ -11,11 +11,12 @@ firebaseConfig = {
   "storageBucket": "auth-lab-20f56.appspot.com",
   "messagingSenderId": "630974933261",
   "appId": "1:630974933261:web:396b740e8a23f298d4e844",
-  "measurementId": "G-22NCPQB3FR", "databaseURL": ""
+  "measurementId": "G-22NCPQB3FR",
+   "databaseURL": "https://auth-lab-20f56-default-rtdb.europe-west1.firebasedatabase.app/"
 } 
 
 firebase = pyrebase.initialize_app(firebaseConfig)
-
+db =firebase.database()
 auth = firebase.auth()
 app = Flask(__name__, template_folder='templates', static_folder='static')
 app.config['SECRET_KEY'] = 'super-secret-key'
@@ -26,9 +27,14 @@ def signup():
   if request.method == 'POST':
     email = request.form['email']
     password = request.form['password']
+    user2 = {"full_name": request.form['full_name'],"email": email, "username":  request.form['username']}
   try:
     print(email,password)
     session['user'] = auth.create_user_with_email_and_password(email, password)
+    
+    ID = session['user']['localId']
+    db.child("Users").child(ID).set(user2)
+
     session['quotes'] = []
     return redirect(url_for('home'))
   except :
@@ -72,8 +78,13 @@ def home():
     if request.method == 'GET':
        return render_template("home.html")
     else:
-      session['quotes'].append(request.form["quotes"])
-      session.modified = True
+      # session['quotes'].append(request.form["quotes"])
+      # session.modified = True
+
+      #make a quote list
+      
+      quote = {"said_by": request.form['said_by'],"quotes": request.form['quotes'], "UID": session['user']['localId']}
+      db.child("quotes").push(quote)
       return redirect(url_for('thanks'))
 
 
@@ -95,7 +106,7 @@ def thanks():
 def display():
     error = ""
     if request.method == 'GET':
-      return render_template('display.html',quotes = session['quotes'])
+      return render_template('display.html',quotes = db.child("quotes").get().val())
 
 
 
