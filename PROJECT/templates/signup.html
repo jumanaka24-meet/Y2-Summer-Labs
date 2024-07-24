@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+    <style>
+        /* Reset some default styles for consistency */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            background-image: url('https://www.transparenttextures.com/patterns/subtle-zebra.png'); /* Subtle background pattern */
+        }
+
+        /* Container for centering */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Heading styles */
+        h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Form styles */
+        form {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        input[type="submit"] {
+            background-color: #ff6f61;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #e36356;
+        }
+
+        /* Sign in link */
+        .signin-link {
+            display: block;
+            margin-top: 20px;
+            color: #777;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+
+        .signin-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Sign Up for Music Lovers</h1>
+        <form action="/signup" method="POST">
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" placeholder="Enter your Email">
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your Password">
+
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your Name">
+
+            <label for="favsong">Favorite Song:</label>
+            <input type="text" id="favsong" name="favsong" placeholder="Paste your Favorite Song's YouTube link">
+
+            <input type="submit" value="Sign Up">
+        </form>
+        <a href="/signin" class="signin-link">Already have an account? Sign in here.</a>
+    </div>
+</body>
+
+</html>
+

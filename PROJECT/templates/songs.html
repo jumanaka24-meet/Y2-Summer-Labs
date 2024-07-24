@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate Songs</title>
+    <style>
+        /* Reset some default styles for consistency */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Container for centering */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Heading styles */
+        h1 {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        /* Song image */
+        .song-image {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            object-fit: cover; /* Ensure images maintain aspect ratio and cover the container */
+        }
+
+        /* Rating stars container */
+        .rating {
+            margin-bottom: 20px;
+        }
+
+        .rating input {
+            display: none;
+        }
+
+        .rating label {
+            cursor: pointer;
+            font-size: 2em;
+            color: #ccc;
+        }
+
+        .rating label:hover,
+        .rating input:checked ~ label {
+            color: #ffcc80; /* Color of selected and hovered stars */
+        }
+
+        /* Submit button */
+        input[type="submit"] {
+            background-color: #ff6f61;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #e36356;
+        }
+
+        /* Navigation links */
+        .nav-links {
+            margin-top: 20px;
+        }
+
+        .nav-links a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .nav-links a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>{{ info[number]["name"] }}</h1>
+        <a href="{{ info[number]['link'] }}">Click here to hear the song</a>
+        <img class="song-image" src="{{ info[number]["image"] }}" alt="Song Image">
+
+        <!-- Rating stars -->
+        <form action="/rate" method="POST" class="rating">
+            <input type="radio" id="star5" name="rating" value="10">
+            <label for="star5">&#9733;</label>
+            <input type="radio" id="star4" name="rating" value="8">
+            <label for="star4">&#9733;</label>
+            <input type="radio" id="star3" name="rating" value="6">
+            <label for="star3">&#9733;</label>
+            <input type="radio" id="star2" name="rating" value="4">
+            <label for="star2">&#9733;</label>
+            <input type="radio" id="star1" name="rating" value="2">
+            <label for="star1">&#9733;</label>
+
+            <input type="submit" value="Submit">
+        </form>
+
+        <div class="nav-links">
+            {% if number == 9 %}
+                <a href="/score">SHOW RESULTS</a>
+            {% else %}
+                {% set next_number = number + 1 %}
+                <a href="/songs/{{ next_number }}">NEXT</a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+
+</html>
+
+
