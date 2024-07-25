@@ -25,7 +25,14 @@ app.config['SECRET_KEY'] = 'super-secret-key'
 
 @app.route('/', methods=['GET', 'POST'])
 def home ():
+  # if request.method:
+  #   pass
+  # if session["user"]["localId"]!=None:
+  #   updated={"score":0}
+  #   db.child('Users').child('session["user"]["localId"]').get().val().update(updated)
+
   if request.method == 'GET':
+
     return render_template("home.html")
   else :
     return redirect(url_for('signup'))
@@ -41,13 +48,14 @@ def signup():
   if request.method == 'POST':
     email=request.form['email']
     password= request.form['password']
-    user = {"email": email,"password": password, "name":  request.form['name'],  "favsong":  request.form['favsong']}
+    user = {"email": email,"password": password, "name":  request.form['name'],  "favsong":  request.form['favsong'], "score":0 }
     try:
       session['user'] = auth.create_user_with_email_and_password(email, password)
       session['points'] = 0
     
       ID = session['user']['localId']
       db.child("Users").child(ID).set(user)
+      print(db.child("Users").child(ID).get().val())
 
       #session['quotes'] = []
       #return redirect(url_for('songs',number=0))
@@ -81,13 +89,20 @@ def signin():
       except Exception as e :
         error = "Authentication failed"
         print(e)
+
     return render_template("signin.html")
 
 
 @app.route('/songs/<int:number>', methods=['GET', 'POST'])
 def songs(number):
-    
-
+  if request.method == 'POST':
+    ID = session['user']['localId']
+    user_info = db.child('Users').child(ID).get().val()
+    score = user_info['score']
+    print(score)
+    rating = int(request.form['rating'])
+    score += rating
+    db.child('Users').child(ID).update({'score':score})
 
   info= {
   "song1": {"name":"STRANGERS IN THE NIGHT","link":"https://youtu.be/Fd_3EkGr0-4?si=ywGabbPnxE1kzDRf","image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRy0SICj43GnrYhV4nOyVxTpYY8g1Adwuc-kg&s.jpg"},
@@ -114,16 +129,22 @@ def songs(number):
   return render_template("songs.html", number=number, info= list(info.values()))
 
 
-# score= request.form['rating']
 @app.route('/score', methods=['GET', 'POST'])
 def score ():
+  ID = session['user']['localId']
+  user_info = db.child('Users').child(ID).get().val()
+  score = user_info['score'] 
+  name = user_info['name']
   if request.method == 'GET':
-    return render_template("score.html")
+
+
+
+    return render_template("score.html",score= score, name=name)
   else:
     return redirect(url_for('score'))
 
 
-    # score= request.form[info[0][]]+
+
 
 
 if __name__ == '__main__':

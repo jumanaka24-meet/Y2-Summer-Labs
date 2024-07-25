@@ -69,7 +69,7 @@
         }
 
         /* Submit button */
-        input[type="submit"] {
+        /*input[type="submit"] {
             background-color: #ff6f61;
             color: #fff;
             border: none;
@@ -83,7 +83,7 @@
 
         input[type="submit"]:hover {
             background-color: #e36356;
-        }
+        }*/
 
         /* Navigation links */
         .nav-links {
@@ -110,10 +110,10 @@
     <div class="container">
         <h1>{{ info[number]["name"] }}</h1>
         <a href="{{ info[number]['link'] }}">Click here to hear the song</a>
-        <img class="song-image" src="{{ info[number]["image"] }}" alt="Song Image">
+        <img class="song-image" src='{{ info[number]["image"]}}' alt="Song Image">
 
         <!-- Rating stars -->
-        <form action="/rate" method="POST" class="rating">
+        <form action="/songs/{{number}}" method="POST" class="rating">
             <input type="radio" id="star5" name="rating" value="10">
             <label for="star5">&#9733;</label>
             <input type="radio" id="star4" name="rating" value="8">
@@ -124,8 +124,7 @@
             <label for="star2">&#9733;</label>
             <input type="radio" id="star1" name="rating" value="2">
             <label for="star1">&#9733;</label>
-
-            <input type="submit" value="Submit">
+            <button type=submit>submit</button>
         </form>
 
         <div class="nav-links">
