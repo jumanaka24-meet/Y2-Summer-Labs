@@ -25,11 +25,6 @@ app.config['SECRET_KEY'] = 'super-secret-key'
 
 @app.route('/', methods=['GET', 'POST'])
 def home ():
-  # if request.method:
-  #   pass
-  # if session["user"]["localId"]!=None:
-  #   updated={"score":0}
-  #   db.child('Users').child('session["user"]["localId"]').get().val().update(updated)
 
   if request.method == 'GET':
 
@@ -73,12 +68,14 @@ def signup():
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
     error = ""
+    db.child('Users').child(session['user']['localId']).update({'score':0})
     if request.method == 'POST':
       email = request.form['email']
       password = request.form['password']
       try:
         session['user'] = auth.sign_in_with_email_and_password(email, password)
         session['points'] = 0
+        # db.child('Users').child(ID).update({'score':0})
         # return redirect(url_for('song1'))
       #   session['quotes'] = []
       #   print(session['user'])
@@ -136,12 +133,11 @@ def score ():
   score = user_info['score'] 
   name = user_info['name']
   if request.method == 'GET':
-
-
-
     return render_template("score.html",score= score, name=name)
   else:
     return redirect(url_for('score'))
+    
+
 
 
 
